@@ -1,7 +1,5 @@
 #pragma once
 
-#include "memory"
-
 #define MAX_OBJECT 10
 
 class Object {
@@ -19,14 +17,19 @@ public:
 	static void Delete();
 	static void Delete(int serial);
 
+
 protected:
+
+	Object(bool*);
 
 	int posx = 0, posy = 0;	//位置
 	int sx = 32, sy = 32;	//大きさ
+
 private:
+	
 	int picture = -1;	//画像
+	int serial_n = -1;
 	bool exist = 1;
-	int serial_n;
 
 	static Object* object_l[MAX_OBJECT];	//オブジェクトのリスト
 	static int total_object;				//オブジェクトの総数

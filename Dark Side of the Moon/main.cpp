@@ -1,5 +1,6 @@
 #include "DxLib.h"
 #include "MovableObject.h"
+#include "Button.h"
 
 #define SCREEN_MX 640	//ゲームスクリーンのⅩ方向の大きさ
 #define SCREEN_MY 480	//ゲームスクリーンのＹ方向の大きさ
@@ -31,20 +32,32 @@ int InitGame() {
 int Game() {
 	OutputDebugString("Game\n");
 	
-	for (int i = 0; i < 6; i++){
-		MovableObject* obj = new MovableObject();
-		obj->SetPosition(i * 50, 50);
-	}
-
-	Object::Delete(3);
-
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 3; i++) {
 		Object* obj = new Object();
 		obj->SetPosition(i * 50, 100);
 	}
+
+	for (int i = 0; i < 3; i++){
+		MovableObject* obj = new MovableObject();
+		obj->SetPosition(i * 50, 50);
+	}
+	
+	Button button0([]() {
+		OutputDebugStringA("ボタン0が押された\n");
+	});
+	button0.SetPosition(0, 150);
+
+	Button button1([]() {
+		OutputDebugStringA("ボタン1が押された\n");
+	});
+	button1.SetPosition(50, 150);
+
+
+	WaitTimer(0);
 	while (true){
 		ClearDrawScreen();
 		MovableObject::Drag();
+		Button::Push();
 		Object::Put();
 		ScreenFlip();
 	}

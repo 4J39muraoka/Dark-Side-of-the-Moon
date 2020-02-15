@@ -9,10 +9,13 @@ Object::Object() {
 }
 
 Object::~Object() {
-	for (int i = serial_n; i < Object::total_object; i++) {
-		Object::object_l[i] = Object::object_l[i+1];
+	if (serial_n != -1) {
+		for (int i = serial_n; i < Object::total_object; i++) {
+			Object::object_l[i] = Object::object_l[i + 1];
+			if(i < Object::total_object - 1)Object::object_l[i]->serial_n--;
+		}
+		Object::total_object--;
 	}
-	Object::total_object--;
 }
 
 void Object::SetPicture(int pict) {
@@ -45,6 +48,14 @@ void Object::Delete() {
 
 void Object::Delete(int serial) {
 	delete object_l[serial];
+}
+
+Object::Object(bool* del) {
+	if (this->RegistObj(this) == -1) {
+		*del = 1;
+		return;
+	}
+	*del = 0;
 }
 
 void Object::SetExist(bool e) {
